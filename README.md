@@ -1,4 +1,4 @@
-#HYDRA AUCTION WEBSITE    
+# HYDRA AUCTION WEBSITE    
 This is a  re-upload of the third-semester project completed under the auspices of Aptech    
 Contributors in this project:
   1. Vu Gia Huy Nguyen - Backend and Database Developer, also responsible for Documentation
