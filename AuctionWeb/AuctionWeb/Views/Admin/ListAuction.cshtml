@@ -1,0 +1,83 @@
+﻿@model IPagedList<AuctionWeb.Models.Auction>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "ListAuction";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+    string temp = " ";
+    if (Session["msg"] != null)
+    {
+        temp = Session["msg"].ToString();
+        Session["msg"] = null;
+    }
+}
+
+<h1 class="m-0 text-dark">List Auction</h1>
+
+<head>
+
+</head>
+
+<body onload="@(temp + "()")">
+    <table class="table table-striped" id="tbl_auction">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Category</th>
+                <th scope="col">Account</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Product Description</th>
+                <th scope="col">Auction Image</th>
+                <th scope="col">Minimum Bid</th>
+                <th scope="col">Gap Bid</th>
+                <th scope="col">Bid Increment</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Highest Bidder</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.id</th>
+                    <td>@item.Category.category_name</td>
+                    <td>@item.Account.username</td>
+                    <td>@item.auction_name</td>
+                    <td>@item.auction_description</td>
+                    <td><img src="~/Content/images/@item.auction_image" width="200" height="200" /></td>
+                    <td>@item.auction_minimum_bid</td>
+                    <td>@item.auction_gap_bid</td>
+                    <td>@item.auction_bid_increment</td>
+                    <td>@item.auction_start_date.ToString("dd/MM/yyyy hh:mm")</td>
+                    <td>@item.auction_end_date.ToString("dd/MM/yyyy hh:mm")</td>
+                    @if (item.auction_isCompleted == true)
+                    {
+                        <td class="text-danger">Completed</td>
+                    }
+                    else
+                    {
+                        <td class="text-success">Not Complete</td>
+                    }
+                    @foreach (var tmp in (List<AuctionWeb.Models.Account>)ViewBag.ListAccount)
+                    {
+                        if (item.id_buyer_account == tmp.id)
+                        {
+                            <td>@tmp.username</td>
+                            break;
+                        }
+                    }
+                    <td><a href="~/Admin/DeleteAuction">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("ListAuction", new { page }))
+    </table>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js" defer></script>
+</body>
+

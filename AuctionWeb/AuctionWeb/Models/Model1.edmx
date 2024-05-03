@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBAuctioningWebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_role" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="avatar" Type="varchar" MaxLength="250" />
+          <Property Name="point" Type="float" />
+          <Property Name="email" Type="varchar" MaxLength="250" />
+          <Property Name="paypal_account" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Auction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_category" Type="int" Nullable="false" />
+          <Property Name="id_account" Type="int" Nullable="false" />
+          <Property Name="auction_name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="auction_description" Type="ntext" Nullable="false" />
+          <Property Name="auction_image" Type="varchar" MaxLength="250" />
+          <Property Name="auction_file" Type="varchar" MaxLength="250" />
+          <Property Name="auction_minimum_bid" Type="float" Nullable="false" />
+          <Property Name="auction_gap_bid" Type="float" />
+          <Property Name="auction_bid_increment" Type="float" />
+          <Property Name="auction_start_date" Type="datetime" Nullable="false" />
+          <Property Name="auction_end_date" Type="datetime" Nullable="false" />
+          <Property Name="auction_isCompleted" Type="bit" />
+          <Property Name="id_buyer_account" Type="int" />
+        </EntityType>
+        <EntityType Name="Bid_history">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_auction" Type="int" Nullable="false" />
+          <Property Name="bid" Type="float" Nullable="false" />
+          <Property Name="bidding_time" Type="date" Nullable="false" />
+          <Property Name="id_account" Type="int" />
+        </EntityType>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_account" Type="int" Nullable="false" />
+          <Property Name="id_auction" Type="int" Nullable="false" />
+          <Property Name="final_bid" Type="float" Nullable="false" />
+          <Property Name="payment_method" Type="varchar" MaxLength="250" />
+          <Property Name="isActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="avatar" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_name" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <Association Name="FK__Account__paypal___3C69FB99">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Auction__auction__412EB0B6">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Auction" Type="Self.Auction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Auction">
+              <PropertyRef Name="id_category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Auction__id_acco__4222D4EF">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Auction" Type="Self.Auction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Auction">
+              <PropertyRef Name="id_account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bid_histo__id_au__44FF419A">
+          <End Role="Auction" Type="Self.Auction" Multiplicity="1" />
+          <End Role="Bid_history" Type="Self.Bid_history" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auction">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Bid_history">
+              <PropertyRef Name="id_auction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bill__id_account__47DBAE45">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="id_account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bill__id_auction__48CFD27E">
+          <End Role="Auction" Type="Self.Auction" Multiplicity="1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auction">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="id_auction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bid_history_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Bid_history" Type="Self.Bid_history" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Bid_history">
+              <PropertyRef Name="id_account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBAuctioningWebModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Auction" EntityType="Self.Auction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bid_history" EntityType="Self.Bid_history" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Account__paypal___3C69FB99" Association="Self.FK__Account__paypal___3C69FB99">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Auction__auction__412EB0B6" Association="Self.FK__Auction__auction__412EB0B6">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Auction" EntitySet="Auction" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Auction__id_acco__4222D4EF" Association="Self.FK__Auction__id_acco__4222D4EF">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Auction" EntitySet="Auction" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bid_histo__id_au__44FF419A" Association="Self.FK__Bid_histo__id_au__44FF419A">
+            <End Role="Auction" EntitySet="Auction" />
+            <End Role="Bid_history" EntitySet="Bid_history" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bill__id_account__47DBAE45" Association="Self.FK__Bill__id_account__47DBAE45">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Bill" EntitySet="Bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bill__id_auction__48CFD27E" Association="Self.FK__Bill__id_auction__48CFD27E">
+            <End Role="Auction" EntitySet="Auction" />
+            <End Role="Bill" EntitySet="Bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bid_history_Account" Association="Self.FK_Bid_history_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Bid_history" EntitySet="Bid_history" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBAuctioningWebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_role" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="avatar" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="point" Type="Double" />
+          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="paypal_account" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__Account__paypal___3C69FB99" FromRole="Account" ToRole="Role" />
+          <NavigationProperty Name="Auctions" Relationship="Self.FK__Auction__id_acco__4222D4EF" FromRole="Account" ToRole="Auction" />
+          <NavigationProperty Name="Bills" Relationship="Self.FK__Bill__id_account__47DBAE45" FromRole="Account" ToRole="Bill" />
+          <NavigationProperty Name="Bid_history" Relationship="Self.FK_Bid_history_Account" FromRole="Account" ToRole="Bid_history" />
+        </EntityType>
+        <EntityType Name="Auction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_category" Type="Int32" Nullable="false" />
+          <Property Name="id_account" Type="Int32" Nullable="false" />
+          <Property Name="auction_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="auction_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="auction_image" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="auction_file" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="auction_minimum_bid" Type="Double" Nullable="false" />
+          <Property Name="auction_gap_bid" Type="Double" />
+          <Property Name="auction_bid_increment" Type="Double" />
+          <Property Name="auction_start_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="auction_end_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="auction_isCompleted" Type="Boolean" />
+          <Property Name="id_buyer_account" Type="Int32" />
+          <NavigationProperty Name="Account" Relationship="Self.FK__Auction__id_acco__4222D4EF" FromRole="Auction" ToRole="Account" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Auction__auction__412EB0B6" FromRole="Auction" ToRole="Category" />
+          <NavigationProperty Name="Bid_history" Relationship="Self.FK__Bid_histo__id_au__44FF419A" FromRole="Auction" ToRole="Bid_history" />
+          <NavigationProperty Name="Bills" Relationship="Self.FK__Bill__id_auction__48CFD27E" FromRole="Auction" ToRole="Bill" />
+        </EntityType>
+        <EntityType Name="Bid_history">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_auction" Type="Int32" Nullable="false" />
+          <Property Name="bid" Type="Double" Nullable="false" />
+          <Property Name="bidding_time" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="id_account" Type="Int32" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_Bid_history_Account" FromRole="Bid_history" ToRole="Account" />
+          <NavigationProperty Name="Auction" Relationship="Self.FK__Bid_histo__id_au__44FF419A" FromRole="Bid_history" ToRole="Auction" />
+        </EntityType>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_account" Type="Int32" Nullable="false" />
+          <Property Name="id_auction" Type="Int32" Nullable="false" />
+          <Property Name="final_bid" Type="Double" Nullable="false" />
+          <Property Name="payment_method" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" />
+          <NavigationProperty Name="Account" Relationship="Self.FK__Bill__id_account__47DBAE45" FromRole="Bill" ToRole="Account" />
+          <NavigationProperty Name="Auction" Relationship="Self.FK__Bill__id_auction__48CFD27E" FromRole="Bill" ToRole="Auction" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="avatar" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Auctions" Relationship="Self.FK__Auction__auction__412EB0B6" FromRole="Category" ToRole="Auction" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK__Account__paypal___3C69FB99" FromRole="Role" ToRole="Account" />
+        </EntityType>
+        <Association Name="FK__Account__paypal___3C69FB99">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Auction__id_acco__4222D4EF">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Auction" Type="Self.Auction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Auction">
+              <PropertyRef Name="id_account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bill__id_account__47DBAE45">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="id_account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bid_history_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Bid_history" Type="Self.Bid_history" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Bid_history">
+              <PropertyRef Name="id_account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Auction__auction__412EB0B6">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Auction" Type="Self.Auction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Auction">
+              <PropertyRef Name="id_category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bid_histo__id_au__44FF419A">
+          <End Role="Auction" Type="Self.Auction" Multiplicity="1" />
+          <End Role="Bid_history" Type="Self.Bid_history" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auction">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Bid_history">
+              <PropertyRef Name="id_auction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bill__id_auction__48CFD27E">
+          <End Role="Auction" Type="Self.Auction" Multiplicity="1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auction">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="id_auction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBAuctioningWebEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="Auctions" EntityType="Self.Auction" />
+          <EntitySet Name="Bid_history" EntityType="Self.Bid_history" />
+          <EntitySet Name="Bills" EntityType="Self.Bill" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <AssociationSet Name="FK__Account__paypal___3C69FB99" Association="Self.FK__Account__paypal___3C69FB99">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Auction__id_acco__4222D4EF" Association="Self.FK__Auction__id_acco__4222D4EF">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Auction" EntitySet="Auctions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bill__id_account__47DBAE45" Association="Self.FK__Bill__id_account__47DBAE45">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bid_history_Account" Association="Self.FK_Bid_history_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Bid_history" EntitySet="Bid_history" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Auction__auction__412EB0B6" Association="Self.FK__Auction__auction__412EB0B6">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Auction" EntitySet="Auctions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bid_histo__id_au__44FF419A" Association="Self.FK__Bid_histo__id_au__44FF419A">
+            <End Role="Auction" EntitySet="Auctions" />
+            <End Role="Bid_history" EntitySet="Bid_history" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bill__id_auction__48CFD27E" Association="Self.FK__Bill__id_auction__48CFD27E">
+            <End Role="Auction" EntitySet="Auctions" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBAuctioningWebModelStoreContainer" CdmEntityContainer="DBAuctioningWebEntities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="DBAuctioningWebModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="point" ColumnName="point" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="paypal_account" ColumnName="paypal_account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Auctions">
+            <EntityTypeMapping TypeName="DBAuctioningWebModel.Auction">
+              <MappingFragment StoreEntitySet="Auction">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_category" ColumnName="id_category" />
+                <ScalarProperty Name="id_account" ColumnName="id_account" />
+                <ScalarProperty Name="auction_name" ColumnName="auction_name" />
+                <ScalarProperty Name="auction_description" ColumnName="auction_description" />
+                <ScalarProperty Name="auction_image" ColumnName="auction_image" />
+                <ScalarProperty Name="auction_file" ColumnName="auction_file" />
+                <ScalarProperty Name="auction_minimum_bid" ColumnName="auction_minimum_bid" />
+                <ScalarProperty Name="auction_gap_bid" ColumnName="auction_gap_bid" />
+                <ScalarProperty Name="auction_bid_increment" ColumnName="auction_bid_increment" />
+                <ScalarProperty Name="auction_start_date" ColumnName="auction_start_date" />
+                <ScalarProperty Name="auction_end_date" ColumnName="auction_end_date" />
+                <ScalarProperty Name="auction_isCompleted" ColumnName="auction_isCompleted" />
+                <ScalarProperty Name="id_buyer_account" ColumnName="id_buyer_account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bid_history">
+            <EntityTypeMapping TypeName="DBAuctioningWebModel.Bid_history">
+              <MappingFragment StoreEntitySet="Bid_history">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_auction" ColumnName="id_auction" />
+                <ScalarProperty Name="bid" ColumnName="bid" />
+                <ScalarProperty Name="bidding_time" ColumnName="bidding_time" />
+                <ScalarProperty Name="id_account" ColumnName="id_account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bills">
+            <EntityTypeMapping TypeName="DBAuctioningWebModel.Bill">
+              <MappingFragment StoreEntitySet="Bill">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_account" ColumnName="id_account" />
+                <ScalarProperty Name="id_auction" ColumnName="id_auction" />
+                <ScalarProperty Name="final_bid" ColumnName="final_bid" />
+                <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="DBAuctioningWebModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="DBAuctioningWebModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

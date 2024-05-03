@@ -1,0 +1,41 @@
+﻿@model AuctionWeb.Models.Account
+@{
+    ViewBag.Title = "Info";
+    string temp = " ";
+    if (Session["msg"] != null)
+    {
+        temp = Session["msg"].ToString();
+        Session["msg"] = null;
+    } 
+}
+
+<h1 class="m-0 text-dark">Info</h1>
+
+
+<body onload="@(temp + "()")">
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function Success() {
+            swal({
+                title: "Operation Successful",
+                text: "Successful!!!!",
+                icon: "success",
+                button: "Got it!"
+            });
+        }
+        function Failed() {
+            swal({
+                title: "Operation Failed",
+                text: "Failed :(",
+                icon: "error",
+                button: "Got it!"
+            });
+        }
+
+    </script>
+</body>
+
+
+

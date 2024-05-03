@@ -1,0 +1,80 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<AuctionWeb.Models.Account>
+
+@{
+    ViewBag.Title = "Ban List";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+    string temp = " ";
+    if (Session["msg"] != null)
+    {
+        temp = Session["msg"].ToString();
+        Session["msg"] = null;
+    }
+}
+
+<h2>Index</h2>
+
+<head>
+    <link rel="stylesheet" href="~/Content/PagedList.css" />
+</head>
+
+<body onload="@(temp + "()")">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Username</th>
+                <th scope="col">Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.id</th>
+                    <td>
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                            <div class="image">
+                                <img src="~/Content/images/@item.avatar" class="img-circle elevation-2" alt="User Image">
+                            </div>
+                            <div class="info">
+                                <a href="~/Admin/Info/@item.id" class="d-block">@item.username</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="~/Admin/DeleteAccount/@item.id">Delete</a> /
+                        <a href="~/Admin/UnBannedAccount/@item.id">UnBanned</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("BanList", new { page }))
+    <br />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function Success() {
+            swal({
+                title: "Operation Successful",
+                text: "Successful!!!!",
+                icon: "success",
+                button: "Got it!"
+            });
+        }
+        function Failed() {
+            swal({
+                title: "Operation Failed",
+                text: "Failed :(",
+                icon: "error",
+                button: "Got it!"
+            });
+        }
+
+    </script>
+</body>
+

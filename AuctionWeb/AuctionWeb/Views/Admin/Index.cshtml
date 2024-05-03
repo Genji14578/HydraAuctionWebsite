@@ -1,0 +1,95 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using System.Diagnostics
+@model IPagedList<AuctionWeb.Models.Account>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+    string temp = " ";
+    if (Session["msg"] != null)
+    {
+        temp = Session["msg"].ToString();
+        Session["msg"] = null;
+    } 
+}
+
+<h1 class="m-0 text-dark">Index</h1>
+
+<head>
+    <link rel="stylesheet" href="~/Content/PagedList.css" />
+    
+</head>
+
+<body onload="@(temp + "()")">
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>@ViewBag.num_auctions</h3>
+
+                    <p>Auctions</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="~/Admin/ListAuction" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>@ViewBag.num_user</h3>
+
+                    <p>User</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="~/Admin/ListAccount" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>@ViewBag.num_category</h3>
+
+                    <p>Current Category</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="~/Admin/ListCategory" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function Success() {
+            swal({
+                title: "Operation Successful",
+                text: "Successful!!!!",
+                icon: "success",
+                button: "Got it!"
+            });
+        }
+        function Failed() {
+            swal({
+                title: "Operation Failed",
+                text: "Failed :(",
+                icon: "error",
+                button: "Got it!"
+            });
+        }
+
+    </script>
+</body>
+

@@ -1,0 +1,52 @@
+﻿@model AuctionWeb.Models.Category
+@using System.Diagnostics
+@{
+    ViewBag.Title = "EditCategory";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+    string temp = " ";
+    if (Session["msg"] != null)
+    {
+        temp = Session["msg"].ToString();
+        Session["msg"] = null;
+    } 
+}
+
+<h1 class="m-0 text-dark">Edit Category</h1>
+
+<body onload="@(temp + "()")">
+    @using (Html.BeginForm("EditCategory", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" name="id" id="id" value="@Model.id" />
+        <label for="name">Category Name</label>
+        <input type="text" id="name" name="name" value="@Model.category_name" />
+        <br />
+        <input type="file" id="file" name="file" />
+        <br />
+        <input type="submit" value="Submit" />
+        <br />
+        <br />
+        @Html.ActionLink("Back to category list", "ListCategory", "Admin");
+    }
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function Success() {
+            swal({
+                title: "Operation Successful",
+                text: "Successful!!!!",
+                icon: "success",
+                button: "Got it!"
+            });
+        }
+        function Failed() {
+            swal({
+                title: "Operation Failed",
+                text: "Failed :(",
+                icon: "error",
+                button: "Got it!"
+            });
+        }
+
+    </script>
+</body>

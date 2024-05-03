@@ -1,0 +1,33 @@
+﻿@model List<AuctionWeb.Models.Bid_history>
+@{
+    ViewBag.Title = "Index";
+}
+
+<body>
+    <table>
+        <tr>
+            <th>Auction Name</th>
+            <th>Account</th>
+            <th>Bid</th>
+            <th>Bidding Time</th>
+        </tr>
+        @foreach (AuctionWeb.Models.Bid_history item in Model)
+        {
+
+
+            <tr >
+
+                <th>@item.Auction.auction_name</th>
+                <th>@item.Account.username</th>
+                <th>@item.bid</th>
+                <th>@item.bidding_time</th>
+            </tr>
+
+
+
+
+        }
+
+    </table>
+</body>
+

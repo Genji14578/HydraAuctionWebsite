@@ -1,0 +1,36 @@
+﻿@model AuctionWeb.Models.Bill
+@{
+    ViewBag.Title = "EditBill";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<h2>EditBill</h2>
+
+<head>
+
+</head>
+
+<body>
+    <form method="post" action="@Url.Action("EditBill","Admin")">
+        <input type="text" value="@Model.Auction.auction_name" readonly />
+        <br />
+        Payment Method: <select id="method" name="method">
+            @foreach(var item in ViewBag.payment)
+            {
+                <option>@item</option>
+            }
+        </select>
+        <br /> 
+        Is active<select id="bit" name="bit">
+            @foreach(var item in ViewBag.lst)
+            {
+                <option>@item</option>
+            }
+        </select>
+        <br />
+        <input type="hidden" value="@Model.id" name="id" id="id" />
+        <input type="submit" value="Submit" />
+    </form>
+
+</body>
+

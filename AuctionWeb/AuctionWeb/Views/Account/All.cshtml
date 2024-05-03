@@ -1,0 +1,25 @@
+﻿@model List<AuctionWeb.Models.Account>
+@{
+    ViewBag.Title = "All";
+}
+
+<body>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Avatar</th>
+        </tr>
+        @foreach (AuctionWeb.Models.Account item in Model)
+        {
+            <tr style="color:@{item.id==ViewBag.id?"red":"black"} ">
+
+                <th>@item.username</th>
+                <th>@item.avatar</th>
+                
+            </tr>
+        }
+
+    </table>
+
+</body>
+

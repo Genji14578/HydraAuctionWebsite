@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DBAuctioningWebModelStoreContainer" CdmEntityContainer="DBAuctioningWebEntities">
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="DBAuctioningWebModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_role" ColumnName="id_role" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="point" ColumnName="point" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="paypal_account" ColumnName="paypal_account" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Auctions">
+      <EntityTypeMapping TypeName="DBAuctioningWebModel.Auction">
+        <MappingFragment StoreEntitySet="Auction">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_category" ColumnName="id_category" />
+          <ScalarProperty Name="id_account" ColumnName="id_account" />
+          <ScalarProperty Name="auction_name" ColumnName="auction_name" />
+          <ScalarProperty Name="auction_description" ColumnName="auction_description" />
+          <ScalarProperty Name="auction_image" ColumnName="auction_image" />
+          <ScalarProperty Name="auction_file" ColumnName="auction_file" />
+          <ScalarProperty Name="auction_minimum_bid" ColumnName="auction_minimum_bid" />
+          <ScalarProperty Name="auction_gap_bid" ColumnName="auction_gap_bid" />
+          <ScalarProperty Name="auction_bid_increment" ColumnName="auction_bid_increment" />
+          <ScalarProperty Name="auction_start_date" ColumnName="auction_start_date" />
+          <ScalarProperty Name="auction_end_date" ColumnName="auction_end_date" />
+          <ScalarProperty Name="auction_isCompleted" ColumnName="auction_isCompleted" />
+          <ScalarProperty Name="id_buyer_account" ColumnName="id_buyer_account" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bid_history">
+      <EntityTypeMapping TypeName="DBAuctioningWebModel.Bid_history">
+        <MappingFragment StoreEntitySet="Bid_history">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_auction" ColumnName="id_auction" />
+          <ScalarProperty Name="bid" ColumnName="bid" />
+          <ScalarProperty Name="bidding_time" ColumnName="bidding_time" />
+          <ScalarProperty Name="id_account" ColumnName="id_account" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bills">
+      <EntityTypeMapping TypeName="DBAuctioningWebModel.Bill">
+        <MappingFragment StoreEntitySet="Bill">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_account" ColumnName="id_account" />
+          <ScalarProperty Name="id_auction" ColumnName="id_auction" />
+          <ScalarProperty Name="final_bid" ColumnName="final_bid" />
+          <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="DBAuctioningWebModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="category_name" ColumnName="category_name" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="DBAuctioningWebModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="role_name" ColumnName="role_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

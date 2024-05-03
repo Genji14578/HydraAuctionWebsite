@@ -1,0 +1,129 @@
+﻿@using System.Diagnostics
+
+@{
+    string role;
+    if (Session["Role"] != null)
+    {
+        role = Session["Role"].ToString();
+        Debug.WriteLine(role);
+    }
+    else
+    {
+        role = "";
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <!-- start-smoth-scrolling -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/move-top.js"></script>
+    <script type="text/javascript" src="~/Content/js/easing.js"></script>
+    <script type="text/javascript">
+
+        <script type="application/x-javascript"> addEventListener("load", function() {setTimeout(hideURLbar, 0); }, false); function hideURLbar(){window.scrollTo(0, 1); }>
+    </script>
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/Content/js/jquery-1.11.0.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="~/Content/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="~/Content/css/flexslider.css" type="text/css" media="screen" />
+
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="header-main">
+                <div class="logo">
+                    <a href="index.html"> <img src="~/Content/images/logo.png" alt="" title=""> </a>
+                </div>
+                <div class="head-right">
+                    <div class="top-nav">
+                        <span class="menu"> <img src="~/Content/images/icon.png" alt="" /></span>
+                        <ul class="res">
+                            <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                            <li><a href="@Url.Action("Index", "Auction")">Auction</a></li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li><a href="@Url.Action("Logout", "Login")" style="font-style:italic">Logout</a></li>
+                            }
+                            @if (User.Identity.IsAuthenticated && Session["Role"].ToString().Equals("ADMIN"))
+                            {
+                                <li><a href="@Url.Action("Index", "Admin")" style="font-style:italic">Go to Admin Panel</a></li>
+                            }
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <li><a href="@Url.Action("Index", "Login")" style="font-style:italic">Login</a></li>
+                            }
+                            <li><a class="active" href="@Url.Action("Index", "Account")" style="font-style:italic">@Session["Username"]</a></li>
+
+                        </ul>
+
+                        <!-- script-for-menu -->
+                        <script>
+                                                                                                                                                                                                                                            $("span.menu").click(function () {
+                                        $("ul.res").slideToggle(300, function () {
+                                            // Animation complete.
+                                        });
+                                    });
+                        </script>
+                        <!-- /script-for-menu -->
+                    </div>
+
+
+
+                    <div class="search-box">
+                        <div id="sb-search" class="sb-search">
+                            <form method="post" action="@Url.Action("Search","Auction")">
+                                <input class="sb-search-input" style="background-color:black" placeholder="Search" type="search" name="keyword" id="search">
+                                <input class="sb-search-submit" type="submit" value="">
+                                <span class="sb-icon-search"> </span>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"> </div>
+                    <!-- search-scripts -->
+                    <script src="~/Content/js/classie.js"></script>
+                    <script src="~/Content/js/uisearch.js"></script>
+                    <script>
+new UISearch(document.getElementById('sb-search'));
+                    </script>
+                    <!-- //search-scripts -->
+                </div>
+
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+    <!--header end here-->
+    <!--banner strip start here-->
+    <script src="~/Content/js/responsiveslides.min.js"></script>
+    <script>
+                                                                        $(function () {
+                    $("#slider").responsiveSlides({
+                        auto: true,
+                        speed: 500,
+                        namespace: "callbacks",
+                        pager: false,
+                        nav: true,
+                    });
+                });
+    </script>
+
+    @RenderBody()
+
+    <hr />
+    
+
+
+
+</body>
+</html>

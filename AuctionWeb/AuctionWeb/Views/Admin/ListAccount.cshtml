@@ -1,0 +1,97 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<AuctionWeb.Models.Account>
+
+@{
+    ViewBag.Title = "Account List";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+    string temp = " ";
+    if (Session["msg"] != null)
+    {
+        temp = Session["msg"].ToString();
+        Session["msg"] = null;
+    }
+}
+
+<h1 class="m-0 text-dark">List Account</h1>
+
+<head>
+    <link rel="stylesheet" href="~/Content/PagedList.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+</head>
+
+<body onload="@(temp + "()")">
+    <table id="tbl_account">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td scope="row">@item.id</td>
+                    <td>
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                            <div class="image">
+                                <img src="~/Content/images/@item.avatar" class="img-circle elevation-2" alt="User Image">
+                            </div>
+                            <div class="info">
+                                <a href="~/Admin/Info/@item.id" class="d-block">@item.username</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="~/Admin/DeleteAccount/@item.id">Delete</a> /
+                        <a href="~/Admin/BanAccount/@item.id">Ban</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js" defer></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tbl_account').DataTable({
+                
+                "aoColumnDefs": [
+                    { "bSearchable": false, "aTargets": [2] }
+                ],
+                "columns": [
+                    { "data": "id" },
+                    { "data": "username" }
+                ],
+                "pagingType": "full_numbers"
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+        function Success() {
+            swal({
+                title: "Operation Successful",
+                text: "Successful!!!!",
+                icon: "success",
+                button: "Got it!"
+            });
+        }
+        function Failed() {
+            swal({
+                title: "Operation Failed",
+                text: "Failed :(",
+                icon: "error",
+                button: "Got it!"
+            });
+        }
+
+    </script>
+
+</body>
+
